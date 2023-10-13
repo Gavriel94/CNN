@@ -1,3 +1,6 @@
 .DS_Store
-Faces Grouped
-Faces
+Data
+__pycache__/*
+cnn.py
+.vscode
+model.pth
