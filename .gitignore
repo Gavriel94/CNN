@@ -1,3 +1,5 @@
 .DS_Store
 Faces Grouped
 Faces
+__pycache__/*
+cnn.py
