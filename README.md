@@ -18,6 +18,9 @@ The classes are:
 - Post War
 - WWII
 
+>[!Note]
+>This repo is still a work in progress
+
 Dataset:
 https://susanqq.github.io/UTKFace/
 
