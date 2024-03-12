@@ -1,7 +1,6 @@
 .DS_Store
 Data
 __pycache__/*
-cnn.py
 .vscode
 model.pth
 *.pyc
