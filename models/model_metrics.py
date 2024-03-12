@@ -27,7 +27,7 @@ def plot_metrics(t_metric, v_metric, metric):
             ])
     else:
         plt.xticks(range(0, num_epochs), [
-            str(i+1) for i in range(num_epochs) if i % 10 == 0
+            str(i+1) for i in range(num_epochs) if (i % 10) == 0
         ])
     plt.legend()
     plt.show()
