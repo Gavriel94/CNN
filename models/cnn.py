@@ -13,7 +13,7 @@ class GenClassifier(nn.Module):
             nn.BatchNorm2d(16),
             nn.MaxPool2d(kernel_size=3, stride=3),
             
-            nn.Conv2d(16, 24, 3),
+            nn.Conv2d(16, 24, 2),
             nn.ReLU(),
             nn.BatchNorm2d(24),
             nn.MaxPool2d(2, 2),
@@ -28,16 +28,34 @@ class GenClassifier(nn.Module):
             nn.BatchNorm2d(48),
             nn.MaxPool2d(3, 3),
             
+            nn.Conv2d(48, 64, 3),
+            nn.ReLU(),
+            nn.BatchNorm2d(64),
+            nn.MaxPool2d(3, 3),
+            
+            nn.Conv2d(64, 96, 3),
+            nn.ReLU(),
+            nn.BatchNorm2d(96),
+            nn.MaxPool2d(3, 3),
+            
             # Emulate global average pooling
             nn.AdaptiveAvgPool2d((1,1))
         )
         
         self.classifier = nn.Sequential(
-            nn.Linear(48, 62),
+            nn.Linear(96, 112),
             nn.ReLU(),
             nn.Dropout(0.2),
             
-            nn.Linear(62, 36),
+            nn.Linear(112, 138),
+            nn.ReLU(),
+            nn.Dropout(0.2),
+            
+            nn.Linear(138, 72),
+            nn.ReLU(),
+            nn.Dropout(0.2),
+            
+            nn.Linear(72, 36),
             nn.ReLU(),
             nn.Dropout(0.2),
             
