@@ -4,6 +4,9 @@ import time
 import wandb
 
 class GenClassifier(nn.Module):
+    """
+    CNN with training and evaluation methods.
+    """
     def __init__(self):
         super(GenClassifier, self).__init__()
         
@@ -11,22 +14,18 @@ class GenClassifier(nn.Module):
             nn.Conv2d(in_channels=3, out_channels=16, kernel_size=2),
             nn.ReLU(),
             nn.BatchNorm2d(16),
-            nn.MaxPool2d(kernel_size=3, stride=3),
             
             nn.Conv2d(16, 24, 2),
             nn.ReLU(),
             nn.BatchNorm2d(24),
-            nn.MaxPool2d(2, 2),
             
             nn.Conv2d(24, 36, 3),
             nn.ReLU(),
             nn.BatchNorm2d(36),
-            nn.MaxPool2d(2, 2),
             
             nn.Conv2d(36, 48, 3),
             nn.ReLU(),
             nn.BatchNorm2d(48),
-            nn.MaxPool2d(3, 3),
             
             nn.Conv2d(48, 64, 3),
             nn.ReLU(),
@@ -113,22 +112,20 @@ class GenClassifier(nn.Module):
             print('-' * 49)
             print(f'|\t\t     Epoch {epoch + 1}      \t\t|')
             print('-' * 49)
-            # Process training data
+            # Training loop
             t_loss, t_acc, learning_rate = self.__train(training,
-                                    optimizer,
-                                    scheduler, 
-                                    criterion,
-                                    device, 
-                                    verbose)  
-            # Store training metrics
+                                                         optimizer,
+                                                         scheduler, 
+                                                         criterion,
+                                                         device, 
+                                                         verbose)  
             train_loss.append(t_loss)
             train_accuracy.append(t_acc)
-            # Evaluate validation data
+            
+            # Evaluation loop
             v_loss, v_acc = self.__evaluate(validation, criterion, device)
-            # Store evaluation metrics
             val_loss.append(v_loss)
             val_accuracy.append(v_acc)
-            # Log metrics to wandb
 
             print('-' * 49)
             print(f'| Validation Accuracy   : {v_acc:.8f}% accurate |')
@@ -136,7 +133,9 @@ class GenClassifier(nn.Module):
             print(f'| Time Elapsed\t\t: {time.time() - epoch_start:.2f} seconds\t|')
             print('-' * 49)
             print()
+            
             if wandb_track:
+                # Log metrics to wandb
                 wandb.log({
                 'Epoch': epoch,
                 'Training Accuracy': t_acc,
@@ -146,7 +145,7 @@ class GenClassifier(nn.Module):
                 'Learning Rate': learning_rate
                 })
 
-        # Assess model performance on test data
+        # Evaluate model on test data
         _, test_acc = self.__evaluate(testing, criterion, device)
         total_minutes = (time.time() - start_time).__round__()/60
         print('*' + '-' * 47 + '*')
@@ -170,7 +169,7 @@ class GenClassifier(nn.Module):
                 device, 
                 verbose=True):
         """
-        Training loop for the CNN.
+        Training .
         
         Args:
             dataloader (DataLoader): Training data.
