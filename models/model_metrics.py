@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 """
 Methods to inspect model architecture and visualise metrics.
@@ -22,13 +23,9 @@ def plot_metrics(t_metric, v_metric, metric):
     plt.title(f'Average {metric.title()}')
     num_epochs = len(t_metric)
     if num_epochs <= 10:
-        plt.xticks(range(0, num_epochs), [
-            str(i+1) for i in range(num_epochs)
-            ])
+        plt.xticks(np.arange(0, num_epochs))
     else:
-        plt.xticks(range(0, num_epochs), [
-            str(i+1) for i in range(num_epochs) if (i % 10) == 0
-        ])
+        plt.xticks(np.arange(0, num_epochs, step=10))
     plt.legend()
     plt.show()
 
