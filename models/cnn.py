@@ -13,52 +13,40 @@ class GenClassifier(nn.Module):
         self.conv_layers = nn.Sequential(
             nn.Conv2d(in_channels=3, out_channels=16, kernel_size=2),
             nn.ReLU(),
-            nn.BatchNorm2d(16),
+            nn.BatchNorm2d(num_features=16),
             
-            nn.Conv2d(16, 24, 2),
+            nn.Conv2d(16, 28, 3),
             nn.ReLU(),
-            nn.BatchNorm2d(24),
+            nn.BatchNorm2d(28),
             
-            nn.Conv2d(24, 36, 3),
+            nn.Conv2d(28, 36, 3),
             nn.ReLU(),
             nn.BatchNorm2d(36),
+            nn.MaxPool2d(kernel_size=2, stride=2),
             
             nn.Conv2d(36, 48, 3),
             nn.ReLU(),
             nn.BatchNorm2d(48),
             
-            nn.Conv2d(48, 64, 3),
+            nn.Conv2d(48, 56, 3),
+            nn.ReLU(),
+            nn.BatchNorm2d(56),
+            nn.MaxPool2d(2, 2),
+            
+            nn.Conv2d(56, 64, 3),
             nn.ReLU(),
             nn.BatchNorm2d(64),
-            nn.MaxPool2d(3, 3),
-            
-            nn.Conv2d(64, 96, 3),
-            nn.ReLU(),
-            nn.BatchNorm2d(96),
-            nn.MaxPool2d(3, 3),
             
             # Emulate global average pooling
             nn.AdaptiveAvgPool2d((1,1))
         )
         
         self.classifier = nn.Sequential(
-            nn.Linear(96, 112),
+            nn.Linear(64, 112),
             nn.ReLU(),
-            nn.Dropout(0.2),
+            nn.Dropout(0.4),
             
-            nn.Linear(112, 138),
-            nn.ReLU(),
-            nn.Dropout(0.2),
-            
-            nn.Linear(138, 72),
-            nn.ReLU(),
-            nn.Dropout(0.2),
-            
-            nn.Linear(72, 36),
-            nn.ReLU(),
-            nn.Dropout(0.2),
-            
-            nn.Linear(36, 7)
+            nn.Linear(112, 7)
         )
         
         self.flatten = nn.Flatten()
